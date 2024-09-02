@@ -1,5 +1,6 @@
 FROM debian:bullseye-slim
 
+
 # Mettre à jour et installer MariaDB
 RUN apt update -y && apt install mariadb-server -y
 
@@ -11,6 +12,6 @@ COPY tools/setup-mariadb.sh /usr/local/bin/mariadb.sh
 
 # Rendre le script exécutable
 RUN chmod 755 /usr/local/bin/mariadb.sh
-
+EXPOSE 3306
 # Définir l'entrée du conteneur
 ENTRYPOINT ["/usr/local/bin/mariadb.sh"]

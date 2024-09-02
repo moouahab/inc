@@ -2,7 +2,7 @@
 FROM debian:bullseye-slim
 
 # Mettre à jour les paquets et installer Nginx et OpenSSL
-RUN apt-get update -y && apt-get upgrade -y && apt-get install -y nginx openssl
+RUN apt-get update -y && apt-get upgrade -y && apt-get install -y nginx wget openssl
 
 # Créer le répertoire pour les certificats SSL
 RUN mkdir -p /etc/nginx/ssl
@@ -17,7 +17,7 @@ RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
 RUN mkdir -p /var/run/nginx
 
 # Copier la configuration personnalisée de Nginx
-COPY conf/nginx.conf /etc/nginx/nginx.conf
+COPY conf/nginx.conf /etc/nginx/conf.d/wordpress.conf
 
 # S'assurer que les permissions sont correctes pour le répertoire web
 RUN chmod 755 /var/www/html && chown -R www-data:www-data /var/www/html

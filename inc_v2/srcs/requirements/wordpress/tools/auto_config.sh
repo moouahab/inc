@@ -9,11 +9,13 @@ done
 # Vérifier si wp-config.php existe, sinon le créer
 if [ ! -f /var/www/wordpress/wp-config.php ]; then
     echo "Creating wp-config.php..."
+    cd /var/www/wordpress
     wp config create --allow-root \
         --dbname=$SQL_DATABASE \
         --dbuser=$SQL_USER \
         --dbpass=$SQL_PASSWORD \
-        --dbhost=mariadb:3306 --path='/var/www/wordpress'
+        --dbhost=mariadb 
+        # --path='/var/www/wordpress'
 fi
 
 # Si WordPress n'est pas encore installé, l'installer
@@ -34,4 +36,4 @@ fi
 mkdir -p /run/php
 
 # Lancer PHP-FPM
-exec /usr/sbin/php-fpm8.1 -F
+exec /usr/sbin/php-fpm7.4 -F

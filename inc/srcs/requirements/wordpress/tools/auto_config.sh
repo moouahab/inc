@@ -1,19 +1,14 @@
 #!/bin/bash
 
 # Attendre 20 secondes pour que la base de données soit prête
-sleep 20
-
+#sleep 20
 # Créer le fichier wp-config.php si nécessaire
 if [ ! -f /var/www/wordpress/wp-config.php ]; then
-    wp config create --allow-root \
-        --dbname=$SQL_DATABASE \
-        --dbuser=$SQL_USER \
-        --dbpass=$SQL_PASSWORD \
-        --dbhost=mariadb:3306 --path='/var/www/wordpress'
+    echo "wp-config.php not found, creating from template...";
+    mv /usr/src/wp-config-inc.php /var/www/wordpress/wp-config.php;
+    chown www-data:www-data /var/www/wordpress/wp-config.php;
+    chmod 644 /var/www/wordpress/wp-config.php;
 fi
 
-# Créer le répertoire /run/php s'il n'existe pas
-mkdir -p /run/php
-
 # Lancer PHP-FPM avec la version correcte
-/usr/sbin/php-fpm7.4 -F
+exec "$@"
